@@ -18,7 +18,7 @@ export default {
             const text = await response.text();
             const list = JSON.parse(text);
 
-            return list;
+            return list.results;
         }
         catch(error){
             console.error('Error:', error);

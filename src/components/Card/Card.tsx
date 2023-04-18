@@ -1,24 +1,19 @@
 import React, { useState,ChangeEvent, useRef,useEffect } from 'react'
+import { useAppSelector } from '../../actions/hooks';
+
+import { PostInterface } from '../../redux/posts/postsSlice';
 
 import iconDelete from '../../assets/iconDelete.svg';
 import iconEdit from '../../assets/iconEdit.svg';
 
 import './cardComponent.scss'
 
-interface Post {
-    id: number;
-    username: string;
-    created_datetime: string;
-    title: string;
-    content: string;
-}
 
 
-const user = 'Victor'
+const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
 
-
-const Card = ({id,username,created_datetime,title,content}:Post) =>{
-
+    const user = useAppSelector((state)=>state.user.username);
+    
     const [confirmDelete,setConfirmDelete] = useState(false);
     const [confirmEdit,setConfirmEdit] = useState(false);
 

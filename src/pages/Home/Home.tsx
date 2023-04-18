@@ -1,29 +1,18 @@
-import React, { useState,ChangeEvent } from 'react'
+import React, { useState,ChangeEvent, useEffect } from 'react';
+
+import { useAppDispatch, useAppSelector } from '../../actions/hooks';
+
+import { getPosts } from '../../redux/posts/postsSlice';
 
 import Card from '../../components/Card'
 import './home.scss'
 
-const post1 =  {
-    "id": 6846,
-    "username": "nvncnv",
-    "created_datetime": "2023-04-17T02:18:32.880277Z",
-    "title": "vv",
-    "content": "vv"
-}
-
-
-const post2 =  {
-    "id": 6846,
-    "username": "Victor",
-    "created_datetime": "2023-04-17T02:18:32.880277Z",
-    "title": "My First Post at CodeLeap Network!",
-    "content": `Curabitur suscipit suscipit tellus. Phasellus consectetuer vestibulum elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas egestas arcu quis ligula mattis placerat. Duis vel nibh at velit scelerisque suscipit.
-
-    Duis lobortis massa imperdiet quam. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Fusce a quam. Nullam vel sem. Nullam cursus lacinia erat.`
-}
 
 const Home=() =>{
-    const [userName, setUserName] = useState('');
+
+    const postList = useAppSelector((state)=>state.posts.postsList)
+    const dispatch = useAppDispatch();
+
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
 
@@ -39,6 +28,10 @@ const Home=() =>{
         event.target.style.height = event.target.scrollHeight + 'px';
     }
     
+    useEffect(()=>{
+        dispatch(getPosts())
+
+    },[])
 
     return (
         <div className='homeContainer'>
@@ -70,8 +63,11 @@ const Home=() =>{
                 </div>
 
                 <div className='home__listPost'>
-                    <Card {...post1}/>
-                    <Card {...post2}/>
+                    {postList?
+                        postList.map((post)=>{
+                            return<Card {...post}/>
+                        })
+                        :null}
                 </div>
             </div>
 
