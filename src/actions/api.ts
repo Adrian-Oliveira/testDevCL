@@ -18,14 +18,14 @@ export default {
             const text = await response.text();
             const list = JSON.parse(text);
 
-            return list.results;
+            return list;
         }
         catch(error){
             console.error('Error:', error);
         }
     },
         
-    postPost:async (post:{username:string,title:string, content:string})=>{
+    postPost:async ({username, title, content}:{username:string,title:string, content:string})=>{
         try{
 
             let options = {
@@ -33,7 +33,7 @@ export default {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(post)
+            body: JSON.stringify({username, title, content})
             };
 
             let response = await fetch(`${baseUrl}`, options);

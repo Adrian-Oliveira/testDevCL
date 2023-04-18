@@ -6,7 +6,7 @@ export const getPosts = createAsyncThunk(
   'posts/getPosts',
   async () => {
     const response = await api.getPosts()
-    return response
+    return response.results
   }
 )
 

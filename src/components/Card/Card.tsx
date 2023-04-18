@@ -1,5 +1,7 @@
 import React, { useState,ChangeEvent, useRef,useEffect } from 'react'
-import { useAppSelector } from '../../actions/hooks';
+import api from '../../actions/api';
+import { useAppSelector, useAppDispatch } from '../../actions/hooks';
+import { getPosts } from '../../redux/posts/postsSlice';
 
 import { PostInterface } from '../../redux/posts/postsSlice';
 
@@ -13,7 +15,9 @@ import './cardComponent.scss'
 const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
 
     const user = useAppSelector((state)=>state.user.username);
-    
+
+    const dispatch = useAppDispatch();
+
     const [confirmDelete,setConfirmDelete] = useState(false);
     const [confirmEdit,setConfirmEdit] = useState(false);
 
@@ -24,6 +28,19 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
     const minutesAgo = Math.round(diffMilliseconds / (1000 * 60));
 
     const elem = useRef<HTMLTextAreaElement>(null);
+
+    const deletePost = async()=>{
+        await api.deletePost(id)
+        dispatch(getPosts())
+        setConfirmDelete(false)
+    }
+
+    const editPost = ()=>{
+        dispatch(getPosts())
+        setConfirmEdit(false)
+    }
+
+
 
     useEffect(() => {
         elem.current?elem.current.style.height = `${elem?.current?.scrollHeight}px`:null;
@@ -47,7 +64,7 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
                     <span className='cardComponent__userName'>{`@${username}`}</span>
                     <span className='cardComponent__createdDateTime'>{`${minutesAgo} minutes ago`}</span>
                 </div>
-                <textarea className='cardComponent__content' readOnly={true} ref={elem}>{content}</textarea>
+                <textarea className='cardComponent__content' readOnly={true} ref={elem} value={content}></textarea>
 
             </div>
 
@@ -66,7 +83,10 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
                             Cancel
                         </button>
 
-                        <button className='cardComponent__confirmDelete__buttonConfirm'>Delete</button>
+                        <button className='cardComponent__confirmDelete__buttonConfirm'
+                                onClick={deletePost}>
+                            Delete
+                        </button>
                     </div>
 
                 </div>                
