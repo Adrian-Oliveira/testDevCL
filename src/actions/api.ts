@@ -5,7 +5,6 @@ const baseUrl = 'https://dev.codeleap.co.uk/careers/';
 export default {
     getPosts:async ()=>{
         try{
-
             let options = {
                 method: 'GET',
             };
@@ -23,8 +22,7 @@ export default {
         catch(error){
             console.error('Error:', error);
         }
-    },
-        
+    },    
     postPost:async ({username, title, content}:{username:string,title:string, content:string})=>{
         try{
 

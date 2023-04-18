@@ -52,7 +52,7 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
     }, [postList]);
 
       return (
-        <div className='cardComponent'>
+        <div className='cardComponent' >
             <h3 className={`cardComponent__title 
                            ${username ===user?'cardComponent__title--userOwner':null}`}>
                 {title}

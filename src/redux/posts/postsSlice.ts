@@ -5,7 +5,7 @@ import api from '../../actions/api';
 export const getPosts = createAsyncThunk(
   'posts/getPosts',
   async () => {
-    const response = await api.getPosts()
+    const response = await api.getPosts();
     return response.results
   }
 )
@@ -34,14 +34,12 @@ export const postsSlice = createSlice({
     
   },
   extraReducers: (builder) => {
-
-    builder.addCase(getPosts.fulfilled, (state, action) => {
+    builder
+    .addCase(getPosts.fulfilled, (state, action) => {
       state.postsList = action.payload
     })
   },
 })
 
-// Action creators are generated for each case reducer function
-/* export const { getPosts } = postsSlice.actions; */
 
 export default postsSlice.reducer;

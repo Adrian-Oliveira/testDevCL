@@ -78,11 +78,10 @@ const Home=() =>{
                 </div>
 
                 <div className='home__listPost'>
-                    {postList?
-                        postList.map((post)=>{
-                            return<Card {...post}/>
-                        })
-                        :null}
+                    
+                    {postList.map((post)=>{
+                        return <Card {...post}/>
+                    })}
                 </div>
             </div>
 
