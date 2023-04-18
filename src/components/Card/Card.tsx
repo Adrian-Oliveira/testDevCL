@@ -15,6 +15,10 @@ import './cardComponent.scss'
 const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
 
     const user = useAppSelector((state)=>state.user.username);
+    const postList = useAppSelector((state)=>state.posts.postsList);
+
+    const [newTitle,setNewTitle] = useState(title);
+    const [newContent,setNewContent] = useState(content);
 
     const dispatch = useAppDispatch();
 
@@ -35,7 +39,8 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
         setConfirmDelete(false)
     }
 
-    const editPost = ()=>{
+    const editPost = async()=>{
+        await api.editPost(id,{title:newTitle, content:newContent})
         dispatch(getPosts())
         setConfirmEdit(false)
     }
@@ -44,10 +49,10 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
 
     useEffect(() => {
         elem.current?elem.current.style.height = `${elem?.current?.scrollHeight}px`:null;
-      }, []);
+    }, [postList]);
 
       return (
-          <div className='cardComponent'>
+        <div className='cardComponent'>
             <h3 className={`cardComponent__title 
                            ${username ===user?'cardComponent__title--userOwner':null}`}>
                 {title}
@@ -76,7 +81,6 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
                     <span className='cardComponent__confirmDelete__question'>
                         Are you sure you want to delete this item?
                     </span>
-
                     <div className='cardComponent__confirmDelete__buttons'>
                         <button className='cardComponent__confirmDelete__buttonCancel'
                                 onClick={()=>setConfirmDelete(false)}>
@@ -104,7 +108,8 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
                         <div className='cardComponent__confirmEdit__fieldName'>Title</div>
                         <input className='cardComponent__confirmEdit__titleInput'
                             placeholder='Hello world'
-                            defaultValue={title}
+                            onChange={(e)=>setNewTitle(e.target.value)}
+                            value={newTitle}
                             />
                     </label>
 
@@ -113,7 +118,8 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
                         <textarea className='cardComponent__confirmEdit__contentInput'
                                 placeholder='Content here'
                                 style={{ resize: 'none' }}
-                                defaultValue={content}>
+                                onChange={(e)=>setNewContent(e.target.value)}
+                                value={newContent}>
                         </textarea>
                     </label>
 
@@ -122,7 +128,8 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
                                 onClick={()=>setConfirmEdit(false)}>
                                 Cancel
                         </button>
-                        <button className='cardComponent__confirmEdit__buttonSave'>
+                        <button className='cardComponent__confirmEdit__buttonSave'
+                                onClick={editPost}>
                                 Save
                         </button>
                     </div>              
@@ -130,7 +137,7 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
             </div>
             :null}
 
-       </div>
+         </div>
     );
 }
 
