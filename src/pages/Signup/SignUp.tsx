@@ -1,8 +1,20 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../../actions/hooks'
+import { setUsername } from '../../redux/user/userSlice'
+
 import './signUp.scss'
 
 const SignUp=() =>{
     const [userName, setUserName] = useState('');
+
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch()
+
+    const handleClick = ()=>{
+        dispatch(setUsername(userName));
+        navigate("/home");
+    }
 
     return (
         <div className='signUpContainer'>
@@ -19,8 +31,10 @@ const SignUp=() =>{
                            />
 
                 </label>
+                
 
                 <button className='signUp__button'
+                        onClick={handleClick}
                         disabled={userName===''}>
                     ENTER
                 </button>

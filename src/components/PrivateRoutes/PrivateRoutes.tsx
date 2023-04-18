@@ -1,14 +1,19 @@
 import React from 'react'
 import {Navigate, Outlet} from 'react-router-dom'
 
+import { useAppDispatch } from '../../actions/hooks';
+import { setUsername } from '../../redux/user/userSlice';
 
 const useAuth=()=>{
-    const user=localStorage.getItem('user');
+    const userName=localStorage.getItem('userName');
 
-    if(user){
-    return true
+    const dispatch = useAppDispatch();
+
+    if(userName){
+        dispatch(setUsername(userName));
+        return true
     } else {
-    return false
+        return false
     }
 }
 
