@@ -17,8 +17,8 @@ const Card = ({id,username,created_datetime,title,content}:PostInterface) =>{
     const user = useAppSelector((state)=>state.user.username);
     const postList = useAppSelector((state)=>state.posts.postsList);
 
-    const [newTitle,setNewTitle] = useState(title);
-    const [newContent,setNewContent] = useState(content);
+    const [newTitle,setNewTitle] = useState('');
+    const [newContent,setNewContent] = useState('');
 
     const dispatch = useAppDispatch();
 
